@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>برج المراقبة — الميناء</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF3F6;--sf:#fff;--ink:#0C2233;--mut:#5E7587;--line:#DAE4EA;--sea:#0E6B8C;--warn:#E39A1B;--bad:#D9483B;--ok:#16906A;--chip:#E6F0F5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#06131D;--sf:#0D2131;--ink:#E6F0F5;--mut:#8CA6B6;--line:#1B3447;--sea:#4FB8DA;--chip:#13293A}}
+:root[data-theme="dark"]{--bg:#06131D;--sf:#0D2131;--ink:#E6F0F5;--mut:#8CA6B6;--line:#1B3447;--sea:#4FB8DA;--chip:#13293A}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;font-size:14px;line-height:1.6}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--sea);outline-offset:2px}
+.ms{font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;display:inline-block;letter-spacing:normal;white-space:nowrap;direction:ltr;unicode-bidi:isolate;font-feature-settings:'liga';vertical-align:-3px;-webkit-font-feature-settings:'liga'}
+.banner .ms{font-size:18px;flex:none;vertical-align:0}
+.wrap{max-width:1920px;margin:0 auto;padding:18px clamp(14px,2.4vw,32px) 28px}
+.top{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;margin-bottom:16px}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#0E6B8C,#0A3A55);display:grid;place-items:center;color:#fff;font-size:22px}
+h1{font-size:19px;margin:0;font-weight:700}
+.sub{color:var(--mut);font-size:12px}
+.status{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:var(--chip);font-size:12.5px;font-weight:500}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.pill.w .dot{background:var(--warn)}
+.clock{text-align:end;font-variant-numeric:tabular-nums}
+.clock b{font-size:20px;display:block;line-height:1.2}
+.tools{display:flex;gap:8px;align-items:center}
+.ib{border:1px solid var(--line);background:var(--sf);border-radius:10px;padding:6px 10px}
+.tabs{display:flex;gap:4px;background:var(--sf);border:1px solid var(--line);padding:0 12px;border-radius:14px;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;margin-bottom:16px;box-shadow:0 6px 18px rgba(12,34,51,.05)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;padding:11px 15px 9px;color:var(--mut);font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:color .25s ease,border-color .25s ease}
+.tab .ms{font-size:18px}
+.tab .cnt{font-size:11px;font-weight:700;background:var(--chip);color:var(--mut);border-radius:99px;min-width:19px;padding:1px 6px;transition:background .25s ease,color .25s ease}
+.tab[aria-selected=true]{color:var(--sea);border-bottom-color:var(--sea)}
+.tab[aria-selected=true] .cnt{background:color-mix(in srgb,var(--sea) 15%,transparent);color:var(--sea)}
+.body{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.card{background:var(--sf);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 10px 30px rgba(12,34,51,.07)}
+.sea{background:linear-gradient(180deg,#0A2A40,#0B4560 60%,#0C5876);border:0;position:relative}
+.sea svg{display:block;width:100%;height:auto}
+.ship{cursor:pointer;transition:filter .25s ease}
+.ship:hover{filter:brightness(1.12)}
+.hl{transition:stroke .25s ease,stroke-width .25s ease}
+.ship:hover .hl,.ship.sel .hl{stroke:#fff;stroke-width:2.5}
+.panel{position:fixed;inset-block:0;inset-inline-end:0;width:min(390px,100%);z-index:20;border-radius:0;border:0;border-inline-start:1px solid var(--line);padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px));overflow:auto;box-shadow:0 0 40px rgba(0,0,0,.28);transform:translateX(-105%);visibility:hidden;transition:transform .42s cubic-bezier(.32,.72,.24,1),visibility 0s .42s}
+.panel.on{transform:none;visibility:visible;transition:transform .42s cubic-bezier(.32,.72,.24,1)}
+.tip{position:fixed;z-index:30;pointer-events:none;background:var(--sf);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.28);width:230px;opacity:0;transform:translateY(4px);transition:opacity .18s ease,transform .18s ease}
+.tip.on{opacity:1;transform:none}
+.tip>b{display:block;font-size:14px}
+.tip small{display:block;color:var(--mut);font-size:11.5px;margin-top:4px}
+.tip>small:nth-of-type(1){margin-top:0}
+.tip .tr{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;margin-top:4px}
+.panel h2{margin:0 0 4px;font-size:18px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.facts div{background:var(--chip);border-radius:10px;padding:8px 10px}
+.facts small{display:block;color:var(--mut);font-size:11.5px}
+.hero{display:block;width:100%;height:auto;border-radius:14px;margin-bottom:12px}
+.phead{display:flex;gap:10px;align-items:center;margin:12px 0 2px}
+.phead h2{margin:0;font-size:17px;line-height:1.35}
+.pstat{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:13px;margin:8px 0 0}
+.pstat i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.banner{display:flex;gap:8px;align-items:flex-start;background:color-mix(in srgb,var(--warn) 14%,transparent);border:1px solid color-mix(in srgb,var(--warn) 45%,transparent);color:var(--warn);border-radius:12px;padding:9px 12px;font-size:12.5px;font-weight:600;margin-top:10px;line-height:1.55}
+.banner.red{background:color-mix(in srgb,var(--bad) 12%,transparent);border-color:color-mix(in srgb,var(--bad) 45%,transparent);color:var(--bad)}
+.banner.ok{background:color-mix(in srgb,var(--ok) 12%,transparent);border-color:color-mix(in srgb,var(--ok) 40%,transparent);color:var(--ok)}
+.danger{display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad);border-radius:99px;padding:4px 12px;font-size:12px;font-weight:700}
+.facts b{display:block;font-size:13px;font-weight:700;margin-top:2px;line-height:1.45}
+.facts div{padding:10px 12px}
+.sec{font-weight:600;margin:14px 0 6px}
+.li{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+.ok{color:var(--ok)}.wn{color:var(--warn)}
+.act{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{border:1px solid var(--line);background:var(--sf);border-radius:12px;padding:8px 14px;font-weight:500;transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn.p{background:var(--sea);border-color:var(--sea);color:#fff}
+.x{position:absolute;inset-block-start:calc(26px + env(safe-area-inset-top,0px));inset-inline-end:26px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(0,0,0,.4);color:#fff;font-size:18px;line-height:1;display:grid;place-items:center;z-index:2}
+.gantt{padding:14px;overflow-x:auto}
+.gwrap{min-width:900px}
+.gr{display:grid;grid-template-columns:200px 1fr;align-items:stretch;border-bottom:1px solid var(--line);height:62px}
+.brlab{display:flex;flex-direction:column;justify-content:center;gap:3px;padding:8px 12px;border-inline-end:1px solid var(--line)}
+.brlab b{font-size:12.5px;display:flex;align-items:center;gap:6px}
+.brlab b i{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.brlab small{color:var(--mut);font-size:11px}
+.gt{position:relative;height:100%;overflow:hidden;background:repeating-linear-gradient(to left,transparent 0 calc(var(--dw,14.2857%) - 1px),var(--line) calc(var(--dw,14.2857%) - 1px) var(--dw,14.2857%))}
+.gt.drop{background:color-mix(in srgb,var(--sea) 12%,transparent)}
+.gh{height:46px}
+.gh .gt{overflow:visible}
+.gh .lbl{font-size:12px;font-weight:600;color:var(--mut);display:flex;align-items:center;justify-content:flex-end;padding-inline-end:12px}
+.gh .day{position:absolute;top:6px;font-size:11.5px;font-weight:700;color:var(--ink);white-space:nowrap;padding-inline-start:5px}
+.gh .hr{position:absolute;top:29px;font-size:9.5px;color:var(--mut);transform:translateX(50%)}
+.gh .nowl{position:absolute;top:29px;font-size:10.5px;font-weight:700;color:var(--bad);padding-inline-start:5px}
+.gb{position:absolute;top:13px;height:36px;border-radius:9px;transition:transform .2s ease,filter .2s ease;padding:0 10px;color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap;border:0;overflow:hidden;box-shadow:0 2px 6px rgba(12,34,51,.16)}
+.gb:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.gb.plan{background:repeating-linear-gradient(135deg,var(--c) 0 8px,color-mix(in srgb,var(--c) 72%,#fff) 8px 16px);border:1px solid color-mix(in srgb,var(--c) 80%,#000 10%)}
+.gb.over{background:repeating-linear-gradient(135deg,var(--bad) 0 8px,color-mix(in srgb,var(--bad) 70%,#fff) 8px 16px);border:1px solid color-mix(in srgb,var(--bad) 80%,#000 10%)}
+.gb[draggable=true]{cursor:grab}
+.gb.dragging{opacity:.45}
+.now{position:absolute;top:0;bottom:0;width:2px;background:var(--bad);z-index:2}
+.planbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line)}
+.lgs{display:flex;flex-wrap:wrap;gap:14px;align-items:center;font-size:12px;color:var(--mut)}
+.lgs .lg{display:inline-flex;align-items:center;gap:6px}
+.lgs i{width:22px;height:12px;border-radius:4px;display:inline-block;background:var(--sea)}
+.lgs i.plan{background:repeating-linear-gradient(135deg,#8B6FD1 0 5px,#fff 5px 10px)}
+.lgs i.over{background:repeating-linear-gradient(135deg,var(--bad) 0 5px,#fff 5px 10px)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--chip)}
+.seg button{border:0;background:none;padding:5px 13px;font-size:12px;font-weight:600;color:var(--mut);transition:background .2s ease,color .2s ease}
+.seg button.on{background:var(--sf);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.col{padding:2px 4px}
+.colh{display:flex;justify-content:space-between;align-items:center;margin:0 0 10px;font-size:14px;font-weight:700;padding-inline-start:6px}
+.colh .tag{background:var(--sf);border:1px solid var(--line)}
+.mvcard{background:var(--sf);border:1px solid var(--line);border-inline-start:4px solid var(--c);border-radius:14px;padding:11px 13px;margin-bottom:10px;width:100%;text-align:start;display:block;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;box-shadow:0 2px 8px rgba(12,34,51,.05)}
+.mvcard:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(12,34,51,.1)}
+.mvhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mvhead b{display:inline-flex;align-items:center;gap:6px;font-size:13.5px}
+.mvhead small{color:var(--mut);font-size:11px;direction:ltr}
+.mvship{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:13px;font-weight:600}
+.mvship small{color:var(--mut);font-weight:500}
+.rt{display:flex;align-items:center;gap:8px;margin:9px 0;font-size:11.5px;font-weight:600;color:var(--mut)}
+.rt .dash{flex:1;border-top:2px dashed var(--sea);opacity:.7}
+.rt span:last-child{color:var(--sea)}
+.mvmeta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.mvfoot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-top:9px;font-size:11.5px;color:var(--mut)}
+.mvfoot .when{display:inline-flex;align-items:center;gap:5px;flex:1 1 auto;min-width:0;line-height:1.5}
+.mvfoot .btn{flex:none;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.btn.g{background:var(--ok);border-color:var(--ok);color:#fff;padding:5px 12px;font-size:12.5px}
+.btn.k{background:var(--ink);border-color:var(--ink);color:var(--bg);padding:5px 12px;font-size:12.5px}
+.empty{background:var(--sf);border:1px dashed var(--line);border-radius:14px;padding:26px 14px;text-align:center;color:var(--mut);font-size:12.5px}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;border-inline:0;border-top:0;background:none;text-align:start}
+.row .sw{width:6px;align-self:stretch;border-radius:4px;background:var(--c)}
+.row div{flex:1}
+.row small{color:var(--mut);display:block}
+.hd{padding:14px 14px 6px;font-weight:600}
+.tag{font-size:11.5px;padding:2px 9px;border-radius:99px;background:var(--chip)}
+.tag.e{background:var(--bad);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.chips.top{border:1px solid var(--line);background:var(--sf);border-radius:22px;margin-bottom:14px;border-bottom-width:1px;box-shadow:0 6px 18px rgba(12,34,51,.05)}
+.chips .lbl{display:inline-flex;gap:6px;align-items:center;font-weight:700;font-size:12.5px;color:var(--mut);margin-inline-end:6px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--sf);border:1px solid var(--line);border-radius:99px;padding:4px 12px 4px 6px;font-size:12px;font-weight:600;transition:transform .2s ease,box-shadow .2s ease}
+button.chip:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(12,34,51,.12)}
+.chip .av{width:23px;height:23px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:10px;font-weight:700;background:var(--c,#8B6FD1);flex:none}
+.chip small{color:var(--mut);font-weight:500}
+.chip.draft{border-color:color-mix(in srgb,var(--bad) 45%,transparent)}
+.chip.draft small{color:var(--bad)}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl th{color:var(--mut);font-weight:600;font-size:11.5px;text-align:start;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr[data-id]{cursor:pointer}
+.tbl tbody tr:hover td{background:color-mix(in srgb,var(--chip) 55%,transparent)}
+.wbar{height:5px;border-radius:3px;background:var(--line);margin-top:6px;overflow:hidden;min-width:70px}
+.wbar i{display:block;height:100%;border-radius:3px;background:var(--c)}
+.arrday{font-weight:700;font-size:12.5px;margin:16px 2px 8px;color:var(--mut)}
+.arrday:first-child{margin-top:4px}
+.arr{display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:8px;width:100%;text-align:start;transition:transform .2s ease,box-shadow .2s ease}
+button.arr:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(12,34,51,.09)}
+.arr.late{background:color-mix(in srgb,var(--bad) 5%,var(--sf));border-color:color-mix(in srgb,var(--bad) 32%,transparent)}
+.arr .time{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;direction:ltr;flex:none}
+.arr .who{flex:1;min-width:0}
+.arr .who b{font-size:13px}
+.arr .who small{display:block;color:var(--bad);font-size:11.5px;font-weight:600;margin-top:2px}
+.arr .who small.ok{color:var(--mut);font-weight:500}
+.arr .got{display:inline-flex;align-items:center;gap:5px;background:var(--ok);color:#fff;border-radius:10px;padding:5px 12px;font-size:12px;font-weight:600;flex:none}
+.pda{font-size:10.5px;font-weight:700;color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 45%,transparent);border-radius:99px;padding:2px 8px;flex:none}
+.toast{position:fixed;inset-block-end:calc(20px + env(safe-area-inset-bottom,0px));inset-inline:0;margin:auto;width:max-content;max-width:90%;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:14px;opacity:0;transform:translateY(12px);transition:opacity .3s ease,transform .3s cubic-bezier(.22,.75,.3,1);pointer-events:none;z-index:9}
+.toast.on{opacity:1;transform:none}
+@media (max-width:1100px){.res,.cols{grid-template-columns:1fr}}
+@media (max-width:900px){.top{grid-template-columns:1fr}.clock{text-align:start}}
+@keyframes bob{0%,100%{transform:translateY(-1.6px)}50%{transform:translateY(1.6px)}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.sea .ship{animation:bob 6s ease-in-out infinite}
+.sea .ship:nth-of-type(3n){animation-duration:7.8s;animation-delay:-2.4s}
+.sea .ship:nth-of-type(3n+1){animation-duration:6.9s;animation-delay:-4.3s}
+#views>*{animation:rise .45s cubic-bezier(.22,.75,.3,1) both}
+@keyframes flow{to{stroke-dashoffset:-32}}
+.route{animation:flow 2.6s linear infinite}
+.sea svg text{direction:ltr}
+@media (prefers-reduced-motion:reduce){animateMotion,animateTransform{display:none}.toast,.panel,.tip{transition:none}.sea .ship,#views>*,.route{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header class="top">
+  <div class="brand"><div class="logo"><span class="ms" style="font-size:24px">anchor</span></div><div><h1>برج المراقبة</h1><div class="sub">ميناء طرابلس — شاشة التشغيل</div></div></div>
+  <div class="status"><span class="pill"><i class="ms" style="font-size:15px;color:var(--ok)">check_circle</i>الملاحة مفتوحة</span><span class="pill w"><i class="ms" style="font-size:15px;color:var(--warn)">air</i>رياح 18 عقدة</span><span class="pill"><i class="ms" style="font-size:15px;color:var(--mut)">campaign</i>بلاغ قادم: صيانة المدخل 22:00</span></div>
+  <div class="tools"><div class="clock"><b id="clk">--:--:--</b><span class="sub" id="dt"></span></div><button class="ib" id="th" aria-label="تبديل المظهر"><span class="ms" style="font-size:18px;vertical-align:-4px">dark_mode</span></button></div>
+ </header>
+ <div class="tabs" role="tablist" id="tabs"></div>
+ <main class="body" id="body">
+  <div id="views"></div>
+  <aside class="card panel" id="panel" aria-hidden="true"></aside>
+ </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<div class="tip" id="tip" role="tooltip"></div>
+<script>
+const T={cont:['حاويات','#2D9CCB'],tank:['ناقلة','#E0584B'],bulk:['سائبة','#E39A1B'],pax:['ركاب','#8B6FD1'],gen:['بضائع عامة','#16906A']};
+const SC={'تعمل على البضائع':'#16906A','راسية':'#4FB8DA','جاهزة للإبحار':'#8B6FD1','في المخطاف':'#E39A1B','تتحرك':'#EEF2F4','متوقعة':'#7FA6BA','مسودة':'#D9483B'};
+const EM={cont:'inventory_2',tank:'local_gas_station',bulk:'grain',pax:'people',gen:'construction'},ACT={'تعمل على البضائع':'عمليات الشحن والتفريغ','راسية':'إقامة — بانتظار أمر','جاهزة للإبحار':'تجهيز المغادرة','في المخطاف':'انتظار دور الرسو','تتحرك':'قطر وإرشاد','متوقعة':'وصول مرتقب','مسودة':'بانتظار الاعتماد'},AI={'تخطيط الرسو':'anchor','اقتراح رصيف':'auto_awesome','تخطيط مغادرة':'logout','بدء العمليات':'play_arrow','إكمال العمليات':'check_circle','إكمال الحركة':'navigation','تسجيل وصول':'login','اعتماد الطلب':'lock_open'};
+const fmtD=d=>d.toLocaleDateString('ar-LY-u-nu-latn',{day:'numeric',month:'long'})+'، '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+const waitH=s=>{const m=s.wait&&s.wait.match(/(\d+)س\s*(\d+)/);return m?+m[1]+ +m[2]/60:s.wait?6:0};
+function etaOf(s){const n=Date.now();if(s.a!=null)return new Date(n-waitH(s)*36e5);if(s.eta){let h=12;if(s.eta.includes('غدًا'))h=18;else{const m=s.eta.match(/(\d+)/);if(m)h=+m[1]*(s.eta.includes('أيام')?24:1)}return new Date(n+h*36e5)}return new Date(n-8*36e5)}
+const routeOf=s=>{const m=MV.find(z=>z.id==s.id);if(s.a!=null)return 'مخطاف '+['(أ)','(ب)'][s.a]+' ← '+s.pb;if(s.b!=null)return 'خارج الميناء ← '+B[s.b][0];if(s.mv&&m)return m.to+' ← '+m.from;return 'خارج الميناء ← '+(s.pb||'غير مخصص')};
+const S=[
+{id:1,n:'الحكمة',en:'MV Al Hikma',t:'cont',b:0,st:'تعمل على البضائع',len:182,bm:28,dr:9.4,ag:'الشريك البحري'},
+{id:2,n:'نورديك ستار',en:'Nordic Star',t:'tank',b:1,st:'راسية',len:210,bm:34,dr:11.2,ag:'ميد أويل'},
+{id:3,n:'صحراء',en:'Sahara Grain',t:'bulk',b:3,st:'جاهزة للإبحار',len:170,bm:27,dr:10.1,ag:'الأطلس للشحن'},
+{id:4,n:'طرابلس إكسبرس',en:'Tripoli Express',t:'cont',a:0,sl:0,st:'في المخطاف',wait:'6س 20د',pr:'عادية',pb:'رصيف 2',len:190,bm:30,dr:9.8,ag:'الشريك البحري'},
+{id:5,n:'لؤلؤة المحيط',en:'Ocean Pearl',t:'pax',a:1,sl:0,st:'في المخطاف',wait:'2س 05د',pr:'عالية',pb:'رصيف 6',len:160,bm:26,dr:6.2,ag:'سياحة البحر'},
+{id:6,n:'ميدي كاريير',en:'Medi Carrier',t:'gen',mv:1,st:'تتحرك',len:150,bm:23,dr:7.5,ag:'ليبيا للملاحة'},
+{id:7,n:'أطلس ويف',en:'Atlas Wave',t:'bulk',st:'متوقعة',eta:'بعد 5 س',len:175,bm:28,dr:10.3,ag:'الأطلس للشحن'},
+{id:8,n:'بلو هورايزن',en:'Blue Horizon',t:'cont',st:'متوقعة',eta:'غدًا 09:30',len:200,bm:32,dr:10.8,ag:'الشريك البحري',late:1},
+{id:9,n:'سي بريز',en:'Sea Breeze',t:'gen',st:'مسودة',eta:'بعد 3 أيام',len:140,bm:21,dr:6.9,ag:'ليبيا للملاحة'},
+{id:10,n:'نجمة الجنوب',en:'Southern Star',t:'bulk',b:2,st:'تعمل على البضائع',len:185,bm:29,dr:10.6,ag:'الأطلس للشحن'},
+{id:11,n:'بحر المتوسط',en:'Med Pioneer',t:'gen',b:5,st:'راسية',len:150,bm:22,dr:7.1,ag:'ليبيا للملاحة'},
+{id:12,n:'ألفا تانكر',en:'Alpha Tanker',t:'tank',a:0,sl:1,st:'في المخطاف',wait:'3س 40د',pr:'عادية',pb:'رصيف 4',len:175,bm:29,dr:10.2,ag:'ميد أويل'},
+{id:13,n:'نوفا كونتينر',en:'Nova Container',t:'cont',a:1,sl:1,st:'في المخطاف',wait:'1س 15د',pr:'عادية',pb:'رصيف 1',len:165,bm:27,dr:9.1,ag:'الشريك البحري'},
+{id:14,n:'الريح الذهبية',en:'Golden Wind',t:'bulk',mv:2,st:'تتحرك',len:160,bm:26,dr:9.7,ag:'الأطلس للشحن'},
+{id:15,n:'أمواج الشرق',en:'Eastern Waves',t:'tank',st:'متوقعة',eta:'بعد 9 س',len:190,bm:30,dr:11,ag:'ميد أويل'}];
+const B=[['رصيف 1','محطة الحاويات',210,9.5],['رصيف 2','محطة الحاويات',230,10],['رصيف 3','محطة السائبة',200,10.5],['رصيف 4','محطة السائبة',200,11],['رصيف 5','عام',170,9],['رصيف 6','الركاب',190,8.5]];
+const FL={1:'🇱🇾',2:'🇳🇴',3:'🇲🇦',4:'🇱🇾',5:'🇲🇹',6:'🇬🇷',7:'🇲🇦',8:'🇱🇾',9:'🇹🇳',10:'🇪🇬',11:'🇮🇹',12:'🇲🇹',13:'🇩🇪',14:'🇬🇷',15:'🇸🇦'};
+S.forEach(s=>s.fl=FL[s.id]||'🏳️');
+const BTC={'محطة الحاويات':'#2D9CCB','محطة السائبة':'#E39A1B','عام':'#16906A','الركاب':'#8B6FD1'};
+const PILOTS=[['أحمد الزهروني','#16906A'],['سالم الفتوحي','#8B6FD1'],['خالد الزناتي','#2D9CCB'],['عبد السلام الورفلي','#16906A'],['مصطفى بن عشرير','#16906A'],['المتدرّب يوسف القماطي','#E39A1B']];
+const TUGS=[['أسد البحر','62 طن'],['طرابلس 1','45 طن'],['طرابلس 2','45 طن'],['سبراثا','40 طن'],['OEA','32 طن'],['جنزور','28 طن']];
+const BARS=[[1,0,-10,30,'a'],[2,1,-30,12,'a'],[10,2,-14,20,'a'],[3,3,-20,6,'a'],[11,5,-6,14,'a'],[6,4,-1,22,'p'],[5,5,18,42,'p'],[4,1,26,52,'p'],[12,3,8,30,'p'],[13,0,34,56,'p'],[7,2,40,70,'p'],[15,4,30,50,'p'],[8,0,60,98,'p']];
+const MV=[{id:4,mov:'MOV-26-0001',k:'وصول',st:'s',when:'مجدولة 14:30',from:'المخطاف (أ)',to:'رصيف 2',pilot:'سالم الفتوحي',tug:['طرابلس 2']},{id:5,mov:'MOV-26-0002',k:'وصول',st:'s',when:'مجدولة 17:00',from:'المخطاف (ب)',to:'رصيف 6',pilot:'خالد الزناتي',tug:['أسد البحر']},{id:8,mov:'MOV-26-0003',k:'وصول',st:'s',when:'مجدولة غدًا 10:00',from:'خارج الميناء',to:'رصيف 1',pilot:'عبد السلام الورفلي',tug:['جنزور']},{id:6,mov:'MOV-26-0004',k:'وصول',st:'p',when:'قيد الحركة منذ 3 س',from:'المدخل',to:'رصيف 5',pilot:'أحمد الزهروني',tug:['طرابلس 1','طرابلس 2']},{id:14,mov:'MOV-26-0005',k:'مغادرة',st:'p',when:'قيد الحركة منذ 1 س 10 د',from:'رصيف 4',to:'خارج الميناء',pilot:'مصطفى بن عشرير',tug:['أسد البحر']},{id:2,mov:'MOV-26-0006',k:'مغادرة',st:'c',when:'اكتملت 08:10',from:'رصيف 2',to:'خارج الميناء',pilot:'سالم الفتوحي',tug:['جنزور']}];
+const TABS=[['الميناء','directions_boat'],['مخطط الأرصفة','calendar_month'],['الحركات','task_alt'],['المخاطر والوصول','anchor']];
+const $=q=>document.querySelector(q),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let tab=0,sel=null,rangeH=168,dragBar=null;
+const shipBtn=(s,inner)=>`<button class="row" data-id="${s.id}" style="--c:${T[s.t][1]}"><i class="sw"></i>${inner}</button>`;
+const tabCounts=()=>[S.filter(s=>s.b!=null||s.a!=null||s.mv).length,BARS.filter(z=>z[4]=='p').length,MV.filter(m=>m.st!='c').length,S.filter(s=>s.a!=null||s.eta).length];
+const waitStr=s=>{const h=waitH(s),d=Math.floor(h/24);return (d?d+' يوم ':'')+Math.round(h%24)+' س'};
+const etaShort=s=>{const e=etaOf(s);return e.toLocaleDateString('ar-LY-u-nu-latn',{day:'numeric',month:'long'})+' '+e.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})};
+const mDraft=v=>String(v).replace('.',',');
+const pilotOf=n=>PILOTS.find(p=>p[0]==n)||['—','#7FA6BA'];
+const initials=n=>{const w=n.replace('المتدرّب ','').split(' ');return (w[0][0]||'')+(w.length>1?w[w.length-1][0]:'')};
+
+const CC=['#E8A33D','#2D9CCB','#D9483B','#EEF2F4','#16906A'];
+function art(s,L,W){const c=T[s.t][1],b=L*.2,r=W*.3,rc=(x,y,w,h,f,rx=1)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${f}"/>`,
+br=Math.max(r,W*.36),hp=`M0,${br}Q0,0 ${br},0L${L-b},0C${L-b+br*.24},${W*.05} ${L-br*.5},${W*.2} ${L},${W/2}C${L-br*.5},${W*.8} ${L-b+br*.24},${W*.95} ${L-b},${W}L${br},${W}Q0,${W} 0,${W-br}Z`;
+let o=`<path d="${hp}" fill="#000" opacity=".28" transform="translate(2,3)"/><path class="hl" d="${hp}" fill="${c}" stroke="rgba(0,0,0,.45)" stroke-width="1.2"/><path d="${hp}" fill="#fff" fill-opacity=".14" transform="translate(${L*.0175},${W*.14}) scale(.965,.72)"/>`;
+if(s.t=='cont'){const n=Math.max(6,Math.round(L/20)),cw=L*.5/n,ch=W*.17;for(let i=0;i<n;i++)for(let j=0;j<3;j++)o+=rc(L*.27+i*cw+.5,W*.2+j*(ch+W*.035),cw-1,ch,CC[(i*2+j*3)%5],.6)}
+if(s.t=='tank'){o+=rc(L*.26,W*.47,L*.56,W*.06,'#fff9')+[0,1,2,3].map(i=>rc(L*(.3+i*.14),W*.3,L*.035,W*.4,'#1B3447aa')).join('')}
+if(s.t=='bulk'){for(let i=0;i<5;i++)o+=rc(L*(.24+i*.115),W*.25,L*.09,W*.5,'rgba(0,0,0,.35)',1.5)}
+if(s.t=='gen'){for(let i=0;i<2;i++){const cx=L*(.4+i*.28);o+=rc(L*(.3+i*.28),W*.28,L*.2,W*.44,'rgba(0,0,0,.33)',1.5)+`<circle cx="${cx}" cy="${W*.5}" r="${W*.07}" fill="#fff"/><path d="M${cx},${W*.5}L${cx+L*.1},${W*.12}" stroke="#fff" stroke-width="${Math.max(1,W*.05)}"/>`}}
+if(s.t=='pax')o+=rc(L*.12,W*.2,L*.66,W*.6,'#F4F7F9',W*.2)+rc(L*.2,W*.3,L*.5,W*.4,'#DCE6EC',W*.15)+`<circle cx="${L*.58}" cy="${W*.5}" r="${W*.14}" fill="#4FB8DA"/>`+rc(L*.3,W*.4,L*.07,W*.2,'#0C2233');
+else o+=rc(L*.07,W*.22,L*.13,W*.56,'#F4F7F9',1.5)+rc(L*.07+L*.13*.55,W*.3,L*.13*.35,W*.4,'#1B3447');
+o+=`<path d="M${L*.14},${W*.5}H${L*.88}" stroke="rgba(255,255,255,.16)" stroke-width="${Math.max(1,W*.05)}" stroke-linecap="round"/><path d="M${L-b*.85},${W*.2}Q${L-W*.12},${W*.5} ${L-b*.85},${W*.8}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.1"/><circle cx="${L-2}" cy="${W/2}" r="${Math.max(1.2,W*.055)}" fill="#FFF3C4"/>`;
+return o}
+
+function harbour(){const x0=60,g=14,QW=1080,MS=(QW-g*(B.length-1))/B.reduce((a,b)=>a+b[2],0),bx=[];let cx=x0;B.forEach(b=>{bx.push(cx);cx+=b[2]*MS+g});
+const QY=356,PH=34,TC={'محطة الحاويات':'#2D9CCB','محطة السائبة':'#E39A1B','عام':'#16906A','الركاب':'#8B6FD1'};
+const grp=(s,x,y,L,W,lab,op)=>`<g class="ship ${sel==s.id?'sel':''}" data-id="${s.id}" tabindex="0"${op?` opacity="${op}"`:''}><g transform="translate(${x},${y})">${art(s,L,W)}</g>${lab||''}</g>`;
+const nm=(s,x,y)=>`<text x="${x}" y="${y}" fill="#EAF4F8" font-size="12" font-weight="600" text-anchor="middle">${esc(s.n)} <tspan fill="${SC[s.st]||'#7FA6BA'}">●</tspan></text>`;
+const ic=(n,fs=12)=>`<tspan font-family="'Material Symbols Rounded'" font-size="${fs}">${n}</tspan>`;
+let o=`<svg viewBox="0 0 1200 500" role="img" aria-label="خريطة الميناء"><defs><pattern id="w" width="60" height="30" patternUnits="userSpaceOnUse"><path d="M0 15q15-9 30 0t30 0" fill="none" stroke="#fff" stroke-opacity=".07" stroke-width="2"/></pattern></defs>
+<g><rect x="-120" y="-60" width="1440" height="720" fill="url(#w)"/><animateTransform attributeName="transform" type="translate" from="0 0" to="60 30" dur="16s" repeatCount="indefinite"/></g>
+<path d="M0 195C300 178 700 208 1200 182" fill="none" stroke="#fff" stroke-opacity=".06" stroke-width="2" stroke-dasharray="2 10"/>
+<g transform="translate(58,64)"><circle r="26" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.28)"/><path d="M0,-16L4.5,4 0,0 -4.5,4Z" fill="#D9483B"/><path d="M0,16L4.5,-4 0,0 -4.5,-4Z" fill="#E6F0F5" opacity=".8"/><text y="-31" fill="#CFE8F3" font-size="11" text-anchor="middle">N</text></g>
+<g opacity=".6"><path d="M1075 42H1195M1075 37v10M1195 37v10M1135 39v6" stroke="#9CC7DB" stroke-width="1.2"/><text x="1135" y="30" fill="#9CC7DB" font-size="10" text-anchor="middle">150 م</text></g>
+<path d="M0 228C200 218 420 226 620 238C820 250 1020 242 1200 230L1200 356L0 356Z" fill="#205443"/>
+<path d="M0 228C200 218 420 226 620 238C820 250 1020 242 1200 230" fill="none" stroke="#7C5A3A" stroke-width="7" stroke-linecap="round"/>
+<path d="M0 268C300 256 900 296 1200 270" fill="none" stroke="#16402F" stroke-width="12"/>
+<path d="M0 268C300 256 900 296 1200 270" fill="none" stroke="#CFE8F3" stroke-opacity=".22" stroke-width="1.4" stroke-dasharray="10 12"/>
+<text x="480" y="326" fill="#fff" fill-opacity=".1" font-size="22" font-weight="700" text-anchor="middle">منطقة الميناء</text>`;
+[[660,296],[694,296],[728,296]].forEach(p=>{o+=`<circle cx="${p[0]}" cy="${p[1]}" r="15" fill="#16402F" stroke="#3D8266"/><path d="M${p[0]-6},${p[1]-6}a8.5,8.5 0 0,1 12,0" fill="none" stroke="#3D8266" stroke-opacity=".7"/>`});
+[[120,300,120,30],[270,306,90,26],[950,292,130,30]].forEach(r=>{o+=`<rect x="${r[0]}" y="${r[1]}" width="${r[2]}" height="${r[3]}" rx="5" fill="#16402F" stroke="#3D8266"/><path d="M${r[0]+r[2]/2},${r[1]}V${r[1]+r[3]}" stroke="#3D8266"/>`});
+[0,1,4].forEach(i=>{const w=B[i][2]*MS,x=bx[i]+w-46;o+=`<rect x="${x}" y="330" width="34" height="7" rx="2" fill="#E8A33D"/><path d="M${x+4} 337v14M${x+30} 337v14" stroke="#E8A33D" stroke-width="3"/>`});
+o+=`<path d="M985 236L1032 168" stroke="#7C5A3A" stroke-width="9" stroke-linecap="round"/><path d="M1132 152L1088 218" stroke="#7C5A3A" stroke-width="9" stroke-linecap="round"/>
+<circle cx="1032" cy="168" r="4" fill="#79F0A2"><animate attributeName="opacity" values="1;.15;1" dur="2s" repeatCount="indefinite"/></circle>
+<circle cx="1132" cy="152" r="4" fill="#FF6B5E"><animate attributeName="opacity" values="1;.15;1" dur="2s" begin="1s" repeatCount="indefinite"/></circle>
+<text x="1082" y="128" fill="#9CC7DB" font-size="13" text-anchor="middle">${ic('anchor',14)} مدخل الميناء</text>`;
+B.forEach((b,i)=>{const w=b[2]*MS;o+=`<rect x="${bx[i]}" y="${QY}" width="${w}" height="${PH}" rx="8" fill="#C7D6DE" stroke="#93AEBB"/>`;for(let k=1;k<Math.round(w/36);k++)o+=`<circle cx="${bx[i]+k*36}" cy="${QY+PH-5}" r="2.2" fill="#5E7587"/>`});
+S.filter(s=>s.b!=null).forEach(s=>{const L=s.len*MS,W=Math.min(46,s.bm*MS*1.7),w=B[s.b][2]*MS,x=bx[s.b]+(w-L)/2,y=QY+PH/2-W/2;o+=grp(s,x,y,L,W,nm(s,x+L/2,y-6))});
+[[210,118,150,80,'مخطاف (أ)'],[520,105,150,72,'مخطاف (ب)']].forEach((p,i)=>{o+=`<ellipse cx="${p[0]}" cy="${p[1]}" rx="${p[2]}" ry="${p[3]}" fill="rgba(156,199,219,.06)" stroke="#9CC7DB" stroke-opacity=".55" stroke-dasharray="7 8"/><text x="${p[0]}" y="${p[1]-p[3]-8}" fill="#BFE0EE" font-size="12.5" text-anchor="middle">${ic('anchor',13)} ${p[4]} — السفن المنتظرة</text>`;
+S.filter(z=>z.a===i).forEach(s=>{const L=s.len*.45,W=s.bm*.45*1.7,x=p[0]-L/2,y=p[1]+(s.sl?42:-42)-W/2;o+=grp(s,x,y,L,W,nm(s,x+L/2,y-6)+`<text x="${x+L/2}" y="${y+W+15}" fill="#E8A33D" font-size="10.5" text-anchor="middle">${ic('hourglass_top',11)} انتظار ${s.wait} · الرصيف: ${s.pb}${s.pr=='عالية'?' · <tspan fill="#FF8B7E">أولوية</tspan>':''}</text>`)})});
+const c2=bx[1]+B[1][2]*MS/2,c4=bx[3]+B[3][2]*MS/2,P={1:`M1180 70C1090 105 1020 160 960 215C870 280 640 292 ${c2+80} 305C${c2+25} 316 ${c2} 330 ${c2} ${QY+4}`,2:`M${c4} ${QY+4}C${c4} 330 ${c4+25} 316 ${c4+80} 307C880 292 980 240 1050 170C1090 128 1130 70 1165 25`};
+S.filter(s=>s.mv).forEach(s=>{const L=s.len*.44,W=s.bm*.44*1.7;o+=`<path id="rt${s.mv}" class="route" d="${P[s.mv]}" fill="none" stroke="#BFE0EE" stroke-opacity=".55" stroke-width="2" stroke-dasharray="6 10"/><g class="ship ${sel==s.id?'sel':''}" data-id="${s.id}" tabindex="0"><g><g transform="translate(${-L/2},${-W/2})">${art(s,L,W)}<path d="M-2,${W*.28}Q${-L*.22},${W*.5} -2,${W*.72}" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.5"/></g><animateMotion dur="${s.mv==1?24:26}s" repeatCount="indefinite" rotate="auto"><mpath href="#rt${s.mv}"/></animateMotion></g></g>`});
+S.filter(s=>s.st=='متوقعة').forEach((s,i)=>{const L=s.len*.35,W=s.bm*.35*1.7,x=690+i*120,y=52;o+=grp(s,x,y,L,W,`<text x="${x+L/2}" y="${y-6}" fill="#BFE0EE" font-size="11.5" text-anchor="middle">${esc(s.n)} <tspan fill="${SC[s.st]}">●</tspan></text><text x="${x+L/2}" y="${y+W+15}" fill="${s.late?'#FF8B7E':'#9CC7DB'}" font-size="10.5" text-anchor="middle">${s.late?ic('warning',11)+' متأخرة · ':''}${s.eta}</text>`,.75)});
+o+=`<rect y="410" width="1200" height="90" fill="rgba(6,18,27,.92)"/><path d="M0 410H1200" stroke="#2A4B5D"/>`;
+B.forEach((b,i)=>{const w=b[2]*MS,c=bx[i]+w/2,tc=TC[b[1]]||'#7FA6BA';o+=`<text x="${c}" y="432" fill="#E6F0F5" font-size="14.5" font-weight="700" text-anchor="middle">${b[0]}</text><text x="${c}" y="448" fill="#7FA6BA" font-size="11" text-anchor="middle">${b[2]} م · ${b[1]}</text><rect x="${c-32}" y="453" width="64" height="4" rx="2" fill="${tc}"/>`});
+const LG=[['راسية','#4FB8DA'],['تعمل على البضائع','#16906A'],['جاهزة للإبحار','#8B6FD1'],['في المخطاف','#E39A1B'],['تتحرك','#EEF2F4'],['متوقعة','#7FA6BA'],['انتظار المخطاف','#E8A33D','hourglass_top'],['تأخير','#FF8B7E','warning']];
+let tw=LG.reduce((a,z)=>a+z[0].length*6.6+36+(z[2]?16:0),0),X=(1200-tw)/2;
+LG.forEach(z=>{o+=`<circle cx="${X+6}" cy="471" r="4.5" fill="${z[1]}"/><text x="${X+17}" y="475" fill="#BFE0EE" font-size="11.5">${z[2]?ic(z[2],12)+' ':''}${z[0]}</text>`;X+=z[0].length*6.6+36+(z[2]?16:0)});
+const TG=Object.values(T);let t2=TG.reduce((a,z)=>a+z[0].length*6.6+34,0),X2=(1200-t2)/2;
+TG.forEach(z=>{o+=`<rect x="${X2}" y="486" width="12" height="8" rx="2.5" fill="${z[1]}"/><text x="${X2+17}" y="494" fill="#BFE0EE" font-size="11.5">${z[0]}</text>`;X2+=z[0].length*6.6+34});
+return `<div class="card sea">${o}</svg></div>`}
+
+function plan(){const start=-12,H=rangeH,days=H/24,p=h=>((h-start)/H*100).toFixed(3),now=new Date();
+const hd=`<div class="gr gh"><div class="lbl">الرصيف</div><div class="gt" style="--dw:${100/days}%">${Array.from({length:days},(_,d)=>{const dt=new Date(+now+d*864e5);return `<span class="day" style="inset-inline-start:${p(d*24)}%">${dt.toLocaleDateString('ar-LY-u-nu-latn',{weekday:'long',day:'numeric',month:'long'})}</span>`}).join('')}${days<=7?Array.from({length:days},(_,d)=>[6,12,18].map(hr=>`<span class="hr" style="inset-inline-start:${p(d*24+hr)}%">${hr}</span>`).join('')).join(''):''}<i class="now" style="inset-inline-start:${p(0)}%"></i><span class="nowl" style="inset-inline-start:${p(0)}%">الآن</span></div></div>`;
+const wait=S.filter(s=>s.a!=null||s.st=='مسودة'||s.st=='متوقعة').sort((x,y)=>etaOf(x)-etaOf(y));
+const chips=`<div class="chips"><span class="lbl"><span class="ms" style="font-size:16px">anchor</span> بانتظار رصيف <b>${wait.length}</b></span>${wait.map(s=>`<button class="chip ${s.st=='مسودة'?'draft':''}" data-id="${s.id}">${s.fl}<b>${esc(s.en)}</b><small>ETA ${etaShort(s)} · ${s.len} m${s.st=='مسودة'?' · مسودة':''}</small></button>`).join('')}</div>`;
+const legend=`<div class="planbar"><div class="lgs"><span class="lg"><i></i>على الرصيف</span><span class="lg"><i class="plan"></i>مخطط</span><span class="lg"><i class="over"></i>تجاوز مدة البقاء</span><span class="lg"><span class="ms" style="font-size:15px;color:var(--warn)">lightbulb</span> اسحب سفينة مخططة إلى رصيف لتغيير الرسو</span></div><div class="seg" role="group" aria-label="المدة">${[[72,'3 أيام'],[168,'7 أيام'],[336,'14 أيام']].map(r=>`<button data-r="${r[0]}" class="${rangeH==r[0]?'on':''}">${r[1]}</button>`).join('')}</div></div>`;
+const rows=B.map((b,i)=>`<div class="gr"><div class="brlab"><b style="--c:${BTC[b[1]]||'#7FA6BA'}"><i></i>${b[0]} — ${b[1]}</b><small>${b[2]} م · غاطس أقصى ${mDraft(b[3])} م</small></div><div class="gt" data-berth="${i}" style="--dw:${100/days}%">${BARS.map((z,zi)=>{if(z[1]!=i)return '';const s=S.find(q=>q.id==z[0]);const over=z[4]=='a'&&z[2]<-24;return `<button class="gb ${z[4]=='p'?'plan':''}${over?' over':''}" ${z[4]=='p'?'draggable="true" data-bar="'+zi+'"':''} data-id="${s.id}" style="--c:${T[s.t][1]};${z[4]=='p'||over?'':'background-color:'+T[s.t][1]+';'}inset-inline-start:${p(z[2])}%;width:${((z[3]-z[2])/H*100).toFixed(3)}%">${s.fl} ${esc(s.n)}</button>`}).join('')}<i class="now" style="inset-inline-start:${p(0)}%"></i></div></div>`).join('');
+return `<div class="card">${legend}${chips}<div class="gantt"><div class="gwrap">${hd}${rows}</div><p class="sub" style="padding:0 4px">الأشرطة المخططة تقوم مقام الحجز القابل للسحب؛ الصلبة رسو فعلي، والحمراء تجاوز مدة البقاء.</p></div></div>`}
+
+function moves(){
+const K={s:'event_available',p:'navigation',c:'checked'};
+const top=`<div class="chips top"><span class="lbl"><span class="ms" style="font-size:16px">diversity_1</span> المرشدون</span>${PILOTS.map(p=>`<span class="chip"><span class="av" style="--c:${p[1]}">${initials(p[0])}</span>الربان ${p[0]}</span>`).join('')}<span class="lbl" style="margin-inline-start:18px"><span class="ms" style="font-size:16px">sailing</span> القاطرات</span>${TUGS.map(t=>`<span class="chip"><span class="av" style="--c:#2D9CCB"><span class="ms" style="font-size:13px">sailing</span></span>${t[0]} <small>${t[1]}</small></span>`).join('')}</div>`;
+const card=m=>{const s=S.find(q=>q.id==m.id),pl=pilotOf(m.pilot);return `<div class="mvcard" data-id="${s.id}" style="--c:${T[s.t][1]}">
+<div class="mvhead"><b><span class="ms" style="font-size:16px;color:${m.k=='وصول'?'var(--sea)':'var(--warn)'}">${m.k=='وصول'?'login':'logout'}</span>${m.k}</b><small>${m.mov}</small></div>
+<div class="mvship">${s.fl}<b>${esc(s.en)}</b><small>${s.len} m</small></div>
+<div class="rt"><span>${m.from}</span><i class="dash"></i><span>${m.to}</span></div>
+<div class="mvmeta"><span class="chip" style="padding-inline-end:10px"><span class="av" style="--c:${pl[1]}">${initials(pl[0])}</span>الربان ${m.pilot}</span>${m.tug.map(t=>`<span class="chip" style="padding-inline-end:10px"><span class="av" style="--c:#2D9CCB"><span class="ms" style="font-size:13px">sailing</span></span>${t}</span>`).join('')}</div>
+<div class="mvfoot"><span class="when"><span class="ms" style="font-size:14px;color:${m.st=='p'?'var(--sea)':'var(--mut)'}">${m.st=='p'?'schedule':'event'}</span>${esc(m.when)}</span>${m.st=='p'?'<button class="btn g" data-act="إنهاء الحركة '+m.mov+'">إنهاء <span class="ms" style="font-size:15px">download</span></button>':m.st=='s'?'<button class="btn k" data-act="بدء الحركة '+m.mov+'"><span class="ms" style="font-size:15px">play_arrow</span> بدء</button>':'<span class="tag" style="color:var(--ok)">مكتملة ✓</span>'}</div></div>`};
+const C=[['s','مجدول'],['p','قيد الإبحار'],['c','المكتملة (قبل 24 ساعة)']];
+return top+`<div class="cols">${C.map(c=>{const list=MV.filter(m=>m.st==c[0]);return `<div class="col"><div class="colh">${K[c[0]]?`<span class="ms" style="font-size:17px;vertical-align:-4px">${K[c[0]]}</span>`:''}<span style="flex:1">${c[1]}</span><span class="tag">${list.length}</span></div>${list.length?list.map(card).join(''):'<div class="empty">لا شيء هنا</div>'}</div>`}).join('')}</div>`}
+
+function arrivals(){const w=S.filter(s=>s.a!=null).sort((x,y)=>waitH(y)-waitH(x)),maxW=Math.max(24,...w.map(waitH));
+const tbl=`<div class="card"><div class="hd" style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span style="display:inline-flex;align-items:center;gap:7px;font-size:15px"><span class="ms" style="font-size:18px;color:var(--sea)">anchor</span> طوارئ المخطاف</span><small class="sub" style="font-weight:400">مرتبة حسب الأولوية حسب مدة الانتظار</small></div>
+<table class="tbl"><thead><tr><th>#</th><th>السفينة</th><th>المخطاف</th><th>الرصيف</th><th>الانتظار</th><th>الخطوة التالية</th></tr></thead><tbody>
+${w.map((s,i)=>{const bad=waitH(s)>72;return `<tr data-id="${s.id}"><td>${i+1}</td><td><b>${s.fl} ${esc(s.en)}</b><br><small class="sub">${T[s.t][0]} · ${s.len} م · غاطس ${mDraft(s.dr)} م</small></td><td>مخطاف ${s.a==0?'(أ)':'(ب)'} <span class="ms" style="font-size:14px;color:var(--mut);vertical-align:-3px">anchor</span></td><td><b>${s.pb}</b><br><small class="sub">${etaShort(s)}</small></td><td><b style="color:${bad?'var(--bad)':'var(--ok)'}">${waitStr(s)}</b><div class="wbar" style="--c:${bad?'var(--bad)':'var(--ok)'}"><i style="width:${Math.min(100,waitH(s)/maxW*100)}%"></i></div></td><td>${i==0?`<button class="btn p" data-act="اقتراح رصيف لـ ${esc(s.n)}" style="padding:5px 12px;font-size:12.5px">اقترح <span class="ms" style="font-size:15px">auto_awesome</span></button>`:'<span class="tag">بانتظار رصيف</span>'}</td></tr>`}).join('')}
+</tbody></table></div>`;
+const e=S.filter(s=>s.eta).sort((x,y)=>etaOf(x)-etaOf(y)),groups={};
+e.forEach(s=>{const k=etaOf(s).toLocaleDateString('ar-LY-u-nu-latn',{weekday:'long',day:'numeric',month:'long'});(groups[k]=groups[k]||[]).push(s)});
+const arr=`<div class="card"><div class="hd" style="display:flex;justify-content:space-between;align-items:baseline"><span style="display:inline-flex;align-items:center;gap:7px;font-size:15px"><span class="ms" style="font-size:18px;color:var(--sea)">schedule</span> الوصول المتوقع</span><small class="sub" style="font-weight:400">${e.length} سفن</small></div><div style="padding:0 14px 14px">${Object.entries(groups).map(([k,ss])=>`<div class="arrday">${k}</div>${ss.map(s=>{const et=etaOf(s),late=!!s.late||s.st=='مسودة',noB=s.b==null&&!s.pb;return `<button class="arr ${late?'late':''}" data-id="${s.id}"><span class="time">${et.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</span><span class="ms" style="font-size:17px;color:var(--mut)">anchor</span><span class="who"><b>${esc(s.n)} ${s.fl}</b><small class="${late?'':'ok'}">${s.st=='مسودة'?'مسودة بانتظار الاعتماد':late?'متأخرة عن الموعد · '+(noB?'لا رصيف بعد':'رصيف مخصص'):T[s.t][0]+' · '+s.len+' م'}</small></span>${s.st=='مسودة'?'<span class="pda">مسودة</span>':'<span class="pda">PDA</span>'}<span class="got">وصلت <span class="ms" style="font-size:14px">anchor</span></span></button>`}).join('')}`).join('')}</div></div>`;
+const sig=S.filter(s=>s.st=='مسودة'||s.st=='متوقعة'||s.a!=null);
+const signals=`<div class="card" style="margin-top:14px"><div class="hd">✋ إشارات ما قبل الوصول <span class="tag">${sig.length}</span></div>${sig.map(s=>shipBtn(s,`<div><b>${s.n} ${s.fl}</b><small>${s.st=='مسودة'?'مسودة بانتظار الاعتماد · '+s.eta:s.a!=null?'في المخطاف — تخطيط الرسو':'وصول متوقع — '+s.eta}</small></div><span class="tag ${s.late?'e':''}">${s.st}</span>`)).join('')}</div>`;
+return `<div class="res">${tbl}${arr}</div>${signals}`}
+
+function sil(s){const c=T[s.t][1];let d='';
+if(s.t=='cont'){for(let i=0;i<10;i++){const h=2+(i%3==1?1:0);for(let j=0;j<h;j++)d+=`<rect x="${124+i*17}" y="${56-j*7}" width="15" height="6" rx="1" fill="${CC[(i+j*3)%5]}"/>`}}
+if(s.t=='tank')d=`<rect x="118" y="56" width="184" height="4" rx="2" fill="#8FA6B2"/>`+[140,180,220,260].map(x=>`<circle cx="${x}" cy="58" r="5" fill="#B8C9D2"/>`).join('')+`<rect x="205" y="42" width="22" height="14" rx="2" fill="#F4F7F9"/>`;
+if(s.t=='bulk')d=[0,1,2,3,4].map(i=>`<rect x="${126+i*37}" y="50" width="29" height="9" rx="3" fill="#31505E"/>`).join('')+`<path d="M296 59V38" stroke="#12303F" stroke-width="2"/>`;
+if(s.t=='pax')d=`<rect x="46" y="30" width="230" height="30" rx="9" fill="#F4F7F9"/><rect x="70" y="18" width="160" height="14" rx="6" fill="#E3EBF0"/><rect x="196" y="6" width="16" height="14" rx="3" fill="${c}"/>`+[0,1,2,3,4,5,6,7].map(i=>`<circle cx="${62+i*28}" cy="45" r="3" fill="#0E6B8C"/>`).join('');
+if(s.t=='gen')d=[0,1,2].map(i=>`<path d="M${160+i*52} 60V36l16-8" stroke="#31505E" stroke-width="3" fill="none"/><rect x="${130+i*54}" y="50" width="36" height="9" rx="2" fill="#4A6D7C"/>`).join('');
+return `<svg class="hero" viewBox="0 0 354 118" role="img" aria-label="رسم جانبي للسفينة ${esc(s.n)}"><rect width="354" height="118" fill="#DCEBF4"/>
+${s.t=='pax'?'':`<rect x="52" y="24" width="52" height="36" rx="4" fill="#F4F7F9"/><rect x="58" y="30" width="40" height="5" rx="2" fill="#1B3447"/><rect x="58" y="39" width="40" height="5" rx="2" fill="#1B3447" opacity=".65"/><rect x="58" y="48" width="40" height="4" rx="2" fill="#1B3447" opacity=".4"/><rect x="64" y="10" width="18" height="16" rx="3" fill="${c}"/><rect x="64" y="10" width="18" height="5" rx="2" fill="#12303F"/><path d="M112 60V36M107 40h10" stroke="#12303F" stroke-width="2"/>`}
+${d}
+<path d="M26 60H302L338 55C336 74 324 88 304 90H46C33 88 26 76 26 60Z" fill="#12303F"/>
+<rect x="27" y="60" width="284" height="4" fill="${c}" opacity=".85"/>
+<text x="180" y="80" fill="#DCEBF4" font-size="9.5" text-anchor="middle" font-weight="600">${esc(s.en)}</text>
+<path d="M0 88q14-5 28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0V118H0Z" fill="#8FCDE4"/>
+<path d="M330 82q9 5 18 3" stroke="#fff" stroke-width="3" fill="none" opacity=".85" stroke-linecap="round"/></svg>`}
+
+function panel(){const p=$('#panel'),s=S.find(z=>z.id==sel);p.classList.toggle('on',!!s);p.setAttribute('aria-hidden',!s);if(!s)return;
+const A={'تعمل على البضائع':['إكمال العمليات'],'جاهزة للإبحار':['تخطيط مغادرة'],'راسية':['بدء العمليات'],'في المخطاف':['تخطيط الرسو','اقتراح رصيف'],'تتحرك':['إكمال الحركة'],'متوقعة':['تسجيل وصول'],'مسودة':['اعتماد الطلب']}[s.st]||[];
+const eta=etaOf(s),etd=new Date(+eta+(s.t=='cont'?20:14)*36e5),gt=Math.round(s.len*s.bm*s.dr*.3),dw=Math.round(s.len*s.bm*s.dr*.68);
+const banner=s.a!=null?`<div class="banner"><span class="ms">anchor</span> تنتظر منذ ${s.wait} في مخطاف ${s.a==0?'(أ)':'(ب)'} — الرصيف المخطط: ${s.pb}</div>`:s.late?`<div class="banner red"><span class="ms">schedule</span> متأخرة عن الموعد المخطط — ${s.eta}</div>`:`<div class="banner ok"><span class="ms">location_on</span> ${locOf(s)} — ${s.st}</div>`;
+p.innerHTML=`<button class="x" id="cl" aria-label="إغلاق"><span class="ms" style="font-size:17px">close</span></button>${sil(s)}
+<div class="phead"><span class="ms" style="font-size:26px;vertical-align:0">${EM[s.t]}</span><div><h2>${esc(s.n)}</h2><div class="sub">${esc(s.en)} · ${T[s.t][0]} · IMO 26-${10000+s.id*137}</div></div></div>
+<p class="pstat" style="--c:${SC[s.st]||'#7FA6BA'}"><i></i>${s.st}</p>
+${banner}${(s.t=='tank'||s.late)?'<span class="danger"><span class="ms" style="font-size:15px">warning</span> بلاغات خطرة</span>':''}
+<div class="act">${A.map((a,i)=>`<button class="btn ${i?'':'p'}" data-act="${a}">${a}${AI[a]?` <span class="ms" style="font-size:16px">${AI[a]}</span>`:''}</button>`).join('')}<button class="btn" data-act="تصريح مفتوح">تصريح مفتوح <span class="ms" style="font-size:16px">verified</span></button><button class="btn" data-act="فتح الزيارة الكاملة"><span class="ms" style="font-size:16px">open_in_new</span> فتح</button></div>
+<div class="facts"><div><small>وكيل</small><b>${esc(s.ag)}</b></div><div><small>النشاط</small><b>${ACT[s.st]||s.st}</b></div><div><small>GT / DWT</small><b>${gt.toLocaleString('en')} / ${dw.toLocaleString('en')}</b></div><div><small>الطول / العرض</small><b>${s.len},0 م / ${s.bm},0 م</b></div><div><small>الغاطس وصول / مغادرة</small><b>${String(s.dr).replace('.',',')} م / ${(s.dr-1.4).toFixed(1).replace('.',',')} م</b></div><div><small>من ← إلى</small><b>${routeOf(s)}</b></div><div><small>ETA</small><b>${fmtD(eta)}</b></div><div><small>${s.a!=null||s.eta!=null?'ETD':'ATD'}</small><b>${fmtD(etd)}</b></div><div><small>الرصيف</small><b>${s.b!=null?B[s.b][0]+' (قيد التشغيل)':s.pb?s.pb+' (مخطط)':s.mv?'أثناء الحركة':'غير مخصص بعد'}</b></div><div><small>الموقع الحالي</small><b>${locOf(s)}</b></div></div>
+<div class="sec">التصاريح</div><div class="li"><span>تصريح الدخول</span><b class="ok">معتمد</b></div><div class="li"><span>الجمارك</span><b class="${s.b!=null?'ok':'wn'}">${s.b!=null?'مكتمل':'معلّق'}</b></div><div class="li"><span>الحجر الصحي</span><b class="ok">معتمد</b></div>
+<div class="sec">الرسوم التقديرية</div><div class="li"><span>رسوم الرصيف والمرشد</span><b>${(s.len*52).toLocaleString('en')} د.ل</b></div>`}
+function pick(id){sel=id;document.querySelectorAll('.ship').forEach(g=>g.classList.toggle('sel',+g.dataset.id===sel));panel()}
+
+function show(){$('#tip').classList.remove('on');const v=[harbour,plan,moves,arrivals][tab]();$('#views').innerHTML=v;const cnt=tabCounts();$('#tabs').innerHTML=TABS.map((t,i)=>`<button class="tab" role="tab" aria-selected="${i==tab}" data-t="${i}">${t[0]}<span class="ms">${t[1]}</span><span class="cnt">${cnt[i]}</span></button>`).join('');panel()}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2200)}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-t],[data-r],[data-id],[data-act],#cl,#th');if(!a)return;
+if(a.id=='th'){const r=document.documentElement,d=matchMedia('(prefers-color-scheme:dark)').matches,cur=r.dataset.theme||(d?'dark':'light');r.dataset.theme=cur=='dark'?'light':'dark';return}
+if(a.id=='cl'){a.blur();pick(null);return}
+if(a.dataset.t){tab=+a.dataset.t;show();return}
+if(a.dataset.r){rangeH=+a.dataset.r;show();return}
+if(a.dataset.act){toast('تم تنفيذ: '+a.dataset.act);return}
+pick(+a.dataset.id)});
+document.addEventListener('dragstart',e=>{const b=e.target.closest('.gb[data-bar]');if(!b)return;dragBar=+b.dataset.bar;e.dataTransfer.effectAllowed='move';b.classList.add('dragging')});
+document.addEventListener('dragend',()=>{dragBar=null;document.querySelectorAll('.gb.dragging,.gt.drop').forEach(z=>z.classList.remove('dragging','drop'))});
+document.addEventListener('dragover',e=>{const z=e.target.closest('.gt[data-berth]');if(z&&dragBar!=null){e.preventDefault();document.querySelectorAll('.gt.drop').forEach(o=>o.classList.remove('drop'));z.classList.add('drop')}});
+document.addEventListener('drop',e=>{const z=e.target.closest('.gt[data-berth]');if(!z||dragBar==null)return;e.preventDefault();const b=BARS[dragBar],s=S.find(q=>q.id==b[0]),to=+z.dataset.berth;if(b[1]!=to){b[1]=to;toast('تم نقل '+s.n+' إلى '+B[to][0]);show()}dragBar=null});
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&sel){pick(null);return}if((e.key=='Enter'||e.key==' ')&&e.target.matches('.ship')){e.preventDefault();pick(+e.target.dataset.id)}});
+const locOf=s=>s.b!=null?B[s.b][0]:s.a!=null?'مخطاف '+(s.a+1):s.mv?'في الحركة':'خارج الميناء';
+function place(x,y){const t=$('#tip'),w=t.offsetWidth,h=t.offsetHeight;x+=16;y+=16;if(x+w>innerWidth-8)x-=w+32;if(y+h>innerHeight-8)y-=h+32;t.style.left=Math.max(8,x)+'px';t.style.top=Math.max(8,y)+'px'}
+function tipShow(g,x,y){const s=S.find(z=>z.id==+g.dataset.id),t=$('#tip'),r=(a,b)=>`<div class="tr"><span>${a}</span><b>${b}</b></div>`;
+t.innerHTML=`<b>${esc(s.n)}</b><small>${esc(s.en)}</small>`+r('النوع',T[s.t][0])+r('الحالة',s.st)+r('الموقع',locOf(s))+r('الطول × العرض',s.len+' × '+s.bm+' م')+r('الغاطس',s.dr+' م')+(s.wait?r('الانتظار',s.wait):'')+(s.eta?r('الوصول',s.eta):'')+'<small>اضغط لعرض التفاصيل</small>';
+t.classList.add('on');place(x,y)}
+document.addEventListener('mouseover',e=>{const g=e.target.closest('.sea .ship');if(g)tipShow(g,e.clientX,e.clientY)});
+document.addEventListener('mousemove',e=>{if(e.target.closest('.sea .ship'))place(e.clientX,e.clientY)});
+document.addEventListener('mouseout',e=>{const g=e.target.closest('.sea .ship');if(g&&!(e.relatedTarget&&g.contains(e.relatedTarget)))$('#tip').classList.remove('on')});
+document.addEventListener('focusin',e=>{const g=e.target.closest&&e.target.closest('.sea .ship');if(g){const r=g.getBoundingClientRect();tipShow(g,r.left+r.width/2,r.bottom)}});
+document.addEventListener('focusout',()=>$('#tip').classList.remove('on'));
+function tick(){const n=new Date();$('#clk').textContent=n.toLocaleTimeString('en-GB');$('#dt').textContent=n.toLocaleDateString('ar-LY-u-nu-latn',{weekday:'long',day:'numeric',month:'long'})}
+show();tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
